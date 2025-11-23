@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Todo List | Dharshith">
+    <title>Todo | Dharshith</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <canvas id="particles-canvas-blurred"></canvas>
+    <canvas id="particles-canvas"></canvas>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo">Dharshith.</a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="index.html#about" class="nav__link">About</a></li>
+                    <li class="nav__item"><a href="index.html#projects" class="nav__link">Projects</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link active-link">Todo</a></li>
+                </ul>
+            </div>
+            <button class="theme-toggle" id="theme-button" aria-label="Toggle Theme">
+                <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42">
+                    </path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="section" id="todo">
+            <h2 class="section__title">Todo List</h2>
+            <div class="container grid">
+                <div class="projects__card">
+                    <h3 class="projects__title">Board Game</h3>
+                    <ul
+                        style="list-style: disc; padding-left: 1.5rem; margin-top: 1rem; color: var(--text-color-light);">
+                        <li>Buy materials.</li>
+                    </ul>
+                </div>
+
+                <div class="projects__card">
+                    <h3 class="projects__title">In Progress</h3>
+                    <ul
+                        style="list-style: disc; padding-left: 1.5rem; margin-top: 1rem; color: var(--text-color-light);">
+                        <li>Refining animations</li>
+                        <li>Optimizing performance</li>
+                    </ul>
+                </div>
+
+                <div class="projects__card">
+                    <h3 class="projects__title">Completed</h3>
+                    <ul
+                        style="list-style: disc; padding-left: 1.5rem; margin-top: 1rem; color: var(--text-color-light);">
+                        <li>Portfolio Setup</li>
+                        <li>Theme System</li>
+                        <li>Interactive Particles</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <h1 class="footer__title">Dharshith.</h1>
+            <ul class="footer__list">
+                <li><a href="index.html#about" class="footer__link">About</a></li>
+                <li><a href="index.html#projects" class="footer__link">Projects</a></li>
+                <li><a href="#" class="footer__link">Todo</a></li>
+            </ul>
+            <span class="footer__copy">&#169; 2024. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

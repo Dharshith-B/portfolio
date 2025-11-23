@@ -207,7 +207,7 @@ class Particle {
 
 function initParticles() {
     particlesArray = [];
-    const numberOfParticles = (canvas.width * canvas.height) / 15000; // Density
+    const numberOfParticles = (canvas.width * canvas.height) / 4500; // Density (Increased 15x)
     for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
     }
@@ -276,3 +276,29 @@ function animateParticles() {
 resizeCanvas();
 updateTextRects();
 animateParticles();
+
+/* Theme Toggle */
+const themeButton = document.getElementById('theme-button');
+const lightTheme = 'light-theme';
+
+// Previously selected topic (if user selected)
+const selectedTheme = localStorage.getItem('selected-theme');
+
+const getCurrentTheme = () => document.body.classList.contains(lightTheme) ? 'light' : 'dark';
+
+if (selectedTheme) {
+    document.body.classList[selectedTheme === 'light' ? 'add' : 'remove'](lightTheme);
+}
+
+themeButton.addEventListener('click', () => {
+    document.body.classList.toggle(lightTheme);
+    localStorage.setItem('selected-theme', getCurrentTheme());
+
+    // Update particles color immediately
+    if (particlesArray) {
+        particlesArray.forEach(p => {
+            // Re-fetch color from CSS
+            p.color = getComputedStyle(document.documentElement).getPropertyValue('--first-color').trim();
+        });
+    }
+});

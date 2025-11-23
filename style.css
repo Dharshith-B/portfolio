@@ -37,6 +37,16 @@
     --z-fixed: 100;
 }
 
+/* Light Theme */
+body.light-theme {
+    --title-color: hsl(220, 8%, 10%);
+    --text-color: hsl(220, 8%, 30%);
+    --text-color-light: hsl(220, 8%, 40%);
+    --body-color: hsl(220, 20%, 98%);
+    --container-color: hsl(220, 20%, 94%);
+    --border-color: hsl(220, 20%, 85%);
+}
+
 /* Responsive Typography */
 @media screen and (min-width: 968px) {
     :root {
@@ -147,6 +157,49 @@ button {
     border: none;
     outline: none;
     background: none;
+}
+
+.theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--container-color);
+    color: var(--title-color);
+    padding: 0.75rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px hsla(0, 0%, 0%, 0.3);
+    z-index: var(--z-fixed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float-wobble 4s ease-in-out infinite;
+    border: 1px solid var(--border-color);
+}
+
+.theme-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+@keyframes float-wobble {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateX(-50%) translateY(-6px) rotate(-3deg);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(0) rotate(3deg);
+    }
+
+    75% {
+        transform: translateX(-50%) translateY(6px) rotate(-1deg);
+    }
 }
 
 /* REUSABLE CSS CLASSES */
