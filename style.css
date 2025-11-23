@@ -649,22 +649,46 @@ body:hover .cursor-outline {
     transform: translateY(0);
 }
 
-/* View Transition API (Theme Ripple) */
-::view-transition-old(root),
-::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
+/* Page Transitions */
+@keyframes slide-out {
+    to {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
 }
 
+@keyframes slide-in {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+}
+
+/* Default Page Transition */
 ::view-transition-old(root) {
+    animation: slide-out 0.3s ease-out both;
+}
+
+::view-transition-new(root) {
+    animation: slide-in 0.3s ease-out both;
+}
+
+/* Disable page transition animation during theme toggle */
+html.theme-transition ::view-transition-old(root),
+html.theme-transition ::view-transition-new(root) {
+    animation: none;
+}
+
+/* Theme Ripple (Only active during theme toggle) */
+html.theme-transition::view-transition-old(root) {
     z-index: 1;
 }
 
-::view-transition-new(root) {
+html.theme-transition::view-transition-new(root) {
     z-index: 9999;
 }
 
-/* Dark mode specific override if needed */
-.dark::view-transition-new(root) {
+/* Dark mode specific override for ripple */
+html.theme-transition.dark::view-transition-new(root) {
     z-index: 1;
 }

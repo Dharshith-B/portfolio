@@ -456,6 +456,9 @@ themeButton.addEventListener('click', (event) => {
         toggleTheme();
     });
 
+    // Add class to html to disable default page transition
+    document.documentElement.classList.add('theme-transition');
+
     // Wait for the pseudo-elements to be created
     transition.ready.then(() => {
         // Animate the clip-path
@@ -473,6 +476,11 @@ themeButton.addEventListener('click', (event) => {
                 pseudoElement: '::view-transition-new(root)',
             }
         );
+    });
+
+    // Remove class after transition finishes
+    transition.finished.then(() => {
+        document.documentElement.classList.remove('theme-transition');
     });
 });
 
