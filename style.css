@@ -67,9 +67,7 @@ body.light-theme {
     margin: 0;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+
 
 body {
     font-family: var(--body-font);
@@ -169,7 +167,8 @@ button {
     padding: 0.75rem;
     border-radius: 50%;
     box-shadow: 0 4px 12px hsla(0, 0%, 0%, 0.3);
-    z-index: var(--z-fixed);
+    z-index: 9999;
+    /* Ensure it's above everything */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,6 +251,22 @@ button {
     color: var(--title-color);
     font-weight: var(--font-bold);
     font-size: 1.25rem;
+    background-color: var(--first-color);
+    /* Fallback */
+    background-image: linear-gradient(to right, var(--first-color), var(--second-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* ... (skipping unchanged parts) ... */
+
+.footer__title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-weight: var(--font-bold);
 }
 
 .nav__list {
@@ -266,9 +281,89 @@ button {
     position: relative;
 }
 
+.nav__link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--first-color);
+    transition: width 0.3s ease-out;
+}
+
+.nav__link:hover::after,
+.active-link::after {
+    width: 100%;
+}
+
 .nav__link:hover,
 .active-link {
     color: var(--first-color);
+}
+
+.nav__toggle,
+.nav__close {
+    display: none;
+}
+
+/* Mobile Menu Styles */
+@media screen and (max-width: 767px) {
+    .nav__menu {
+        position: fixed;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        /* Full screen */
+        background-color: rgba(10, 10, 10, 0.95);
+        /* Dark overlay */
+        backdrop-filter: blur(10px);
+        padding-top: 6rem;
+        transition: .4s;
+        z-index: var(--z-fixed);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav__list {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 3rem;
+    }
+
+    .nav__link {
+        font-size: var(--h2-font-size);
+        text-transform: uppercase;
+        font-weight: var(--font-bold);
+    }
+
+    .nav__close {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 2rem;
+        color: var(--title-color);
+        cursor: pointer;
+        display: block;
+        width: 32px;
+        height: 32px;
+    }
+
+    .nav__toggle {
+        display: block;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--title-color);
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Show Menu Class */
+    .show-menu {
+        top: 0;
+    }
 }
 
 /* HOME */
@@ -294,8 +389,8 @@ button {
 
 .home__title {
     font-size: var(--big-font-size);
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
+    font-weight: var(--font-bold);
+    margin-bottom: 1rem;
 }
 
 .home__description {
@@ -317,8 +412,9 @@ button {
 
 .button:hover {
     background-color: var(--first-color-alt);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px hsla(var(--hue), 69%, 61%, 0.3);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 20px var(--first-color);
+    /* Glow effect */
 }
 
 .button--ghost {
@@ -443,9 +539,18 @@ button {
 }
 
 .footer__title {
-    font-size: var(--h1-font-size);
+    font-size: 2.5rem;
+    /* Increased size */
     margin-bottom: 2rem;
-    color: var(--title-color);
+    font-weight: var(--font-bold);
+    background-color: var(--first-color);
+    /* Fallback */
+    background-image: linear-gradient(to right, var(--first-color), var(--second-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
 }
 
 .footer__list {
@@ -493,6 +598,19 @@ body:hover .cursor-outline {
     opacity: 1;
 }
 
+/* Hide custom cursor on touch devices */
+@media (hover: none) {
+
+    .cursor-dot,
+    .cursor-outline {
+        display: none;
+    }
+
+    body {
+        cursor: auto;
+    }
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 576px) {
 
@@ -529,4 +647,24 @@ body:hover .cursor-outline {
 .show {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* View Transition API (Theme Ripple) */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 9999;
+}
+
+/* Dark mode specific override if needed */
+.dark::view-transition-new(root) {
+    z-index: 1;
 }

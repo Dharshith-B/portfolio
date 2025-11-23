@@ -29,6 +29,22 @@
                     <li class="nav__item"><a href="todo.html" class="nav__link">Todo</a></li>
                     <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
                 </ul>
+                <div class="nav__close" id="nav-close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
             </div>
             <button class="theme-toggle" id="theme-button" aria-label="Toggle Theme">
                 <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -48,7 +64,7 @@
                 <div class="home__content">
                     <span class="home__subtitle">Hello, I'm Dharshith.</span>
                     <br>
-                    <h1 class="home__title">I am an <br> Architect.</h1>
+                    <h1 class="home__title">I am an Architect.</h1>
                     <p class="home__description">
                         <span id="typing-text"></span><span class="cursor-blink">|</span>
                     </p>
@@ -66,8 +82,8 @@
             <div class="about__container container grid">
                 <div class="about__data">
                     <p class="about__description">
-                        I'm a passionate Full Stack Roboticist with a background in design and engineering, I bridge the
-                        gap between aesthetics and functionality.
+                        I love working with technology, and I am open to learning new things. Learning is part of the
+                        journey to success, after all!
                     </p>
                     <div class="about__info">
                         <div>
@@ -94,10 +110,10 @@
                     </div>
                     <div class="projects__data">
                         <h3 class="projects__title">Board Game Enhanced with Robotics</h3>
-                        <p class="projects__description">A surprisingly fun board game (borrowing heavily from Pokemon),
-                            but with a robotics twist.</p>
+                        <p class="projects__description">A surprisingly fun board game,
+                            enhanced with a robotics twist.</p>
                         <a href="#" class="projects__button">
-                            Demo <i class="arrow-right"></i>
+                            Coming Soon <i class="arrow-right"></i>
                         </a>
                     </div>
                 </article>
@@ -109,9 +125,9 @@
                     </div>
                     <div class="projects__data">
                         <h3 class="projects__title">Rock Paper Scissors Bot</h3>
-                        <p class="projects__description">A bot that plays rock paper scissors with you.</p>
+                        <p class="projects__description">A bot that plays rock paper scissors with you. </p>
                         <a href="#" class="projects__button">
-                            Demo <i class="arrow-right"></i>
+                            Coming Soon <i class="arrow-right"></i>
                         </a>
                     </div>
                 </article>
@@ -125,7 +141,7 @@
                         <h3 class="projects__title">AI Chat Interface</h3>
                         <p class="projects__description">A chat interface with generative AI integration.</p>
                         <a href="#" class="projects__button">
-                            Demo <i class="arrow-right"></i>
+                            Coming Soon <i class="arrow-right"></i>
                         </a>
                     </div>
                 </article>
@@ -148,7 +164,7 @@
 
     <footer class="footer">
         <div class="footer__container container">
-            <h1 class="footer__title">Dharshith.</h1>
+            <h1 class="footer__title text-gradient">Dharshith.</h1>
             <ul class="footer__list">
                 <li><a href="#about" class="footer__link">About</a></li>
                 <li><a href="#projects" class="footer__link">Projects</a></li>
@@ -157,6 +173,13 @@
             <span class="footer__copy">&#169; 2024. All rights reserved.</span>
         </div>
     </footer>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <script src="script.js"></script>
 </body>

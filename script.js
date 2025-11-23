@@ -1,3 +1,25 @@
+/* Initialize Lenis for Smooth Scrolling */
+const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    mouseMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
+});
+
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+
+requestAnimationFrame(raf);
+
+/* GSAP Registration */
+gsap.registerPlugin(ScrollTrigger);
+
 /* Custom Cursor */
 const cursorDot = document.getElementById("cursor-dot");
 const cursorOutline = document.getElementById("cursor-outline");
@@ -5,7 +27,7 @@ const cursorOutline = document.getElementById("cursor-outline");
 let mouse = {
     x: null,
     y: null,
-    radius: 150
+    radius: 200
 };
 
 window.addEventListener("mousemove", function (e) {
@@ -15,14 +37,20 @@ window.addEventListener("mousemove", function (e) {
     mouse.x = posX;
     mouse.y = posY;
 
-    cursorDot.style.left = `${posX}px`;
-    cursorDot.style.top = `${posY}px`;
+    // GSAP for smoother cursor movement
+    gsap.to(cursorDot, {
+        x: posX,
+        y: posY,
+        duration: 0.1,
+        ease: "power2.out"
+    });
 
-    // Animate outline with a slight delay
-    cursorOutline.animate({
-        left: `${posX}px`,
-        top: `${posY}px`
-    }, { duration: 500, fill: "forwards" });
+    gsap.to(cursorOutline, {
+        x: posX,
+        y: posY,
+        duration: 0.5,
+        ease: "power2.out"
+    });
 
     // Update CSS variables for Spotlight Effect
     document.documentElement.style.setProperty('--mouse-x', `${posX}px`);
@@ -52,28 +80,101 @@ function scrollActive() {
 }
 window.addEventListener('scroll', scrollActive);
 
-/* Scroll Reveal Animation */
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-};
+/* GSAP Scroll Reveal Animation */
+const revealElements = document.querySelectorAll('p, h1, h2, h3, a.button, .nav__item, .projects__card, .about__info, .contact__content, .footer__list');
 
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-            observer.unobserve(entry.target);
+revealElements.forEach((el) => {
+    gsap.fromTo(el,
+        { y: 50, opacity: 0 },
+        {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: el,
+                start: "top 85%", // Trigger when top of element hits 85% of viewport height
+                toggleActions: "play none none reverse"
+            }
+        }
+    );
+});
+
+/* Text Reveal Animation (Split Text) */
+function splitTextToSpans(element) {
+    const text = element.innerText;
+    element.innerHTML = '';
+    const words = text.split(' ');
+
+    words.forEach((word, index) => {
+        const wordSpan = document.createElement('span');
+        wordSpan.style.display = 'inline-block';
+        wordSpan.style.whiteSpace = 'nowrap'; // Prevent word breaking
+
+        word.split('').forEach(char => {
+            const charSpan = document.createElement('span');
+            charSpan.className = 'char';
+            charSpan.innerText = char;
+            charSpan.style.display = 'inline-block';
+            wordSpan.appendChild(charSpan);
+        });
+
+        element.appendChild(wordSpan);
+
+        // Add space after word if it's not the last one
+        if (index < words.length - 1) {
+            const spaceSpan = document.createElement('span');
+            spaceSpan.className = 'char';
+            spaceSpan.innerHTML = '&nbsp;';
+            spaceSpan.style.display = 'inline-block';
+            element.appendChild(spaceSpan);
         }
     });
-}, observerOptions);
+}
 
-// Select all text elements and cards to animate
-const hiddenElements = document.querySelectorAll('p, h1, h2, h3, a.button, .nav__item, .projects__card, .about__info, .contact__content, .footer__list');
-hiddenElements.forEach((el) => {
-    el.classList.add('hidden');
-    observer.observe(el);
+const textRevealElements = document.querySelectorAll('.home__title, .section__title');
+
+textRevealElements.forEach(el => {
+    splitTextToSpans(el);
+
+    gsap.fromTo(el.querySelectorAll('.char'),
+        { y: 50, opacity: 0 },
+        {
+            y: 0,
+            opacity: 1,
+            stagger: 0.05,
+            duration: 1,
+            ease: "power4.out",
+            scrollTrigger: {
+                trigger: el,
+                start: "top 80%",
+            }
+        }
+    );
 });
+
+/* Hero Section Entrance */
+const heroTl = gsap.timeline();
+
+heroTl.from('.home__subtitle', {
+    y: -30,
+    opacity: 0,
+    duration: 1,
+    delay: 0.5,
+    ease: "power3.out"
+})
+    .from('.home__description', {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out"
+    }, "-=0.5")
+    .from('.home__img-wrapper', {
+        scale: 0.8,
+        opacity: 0,
+        duration: 1.2,
+        ease: "elastic.out(1, 0.5)"
+    }, "-=0.8");
 
 /* Typing Effect */
 const textToType = "I make robots, and then educate them.";
@@ -91,10 +192,14 @@ function typeText() {
 // Start typing when the page loads
 window.addEventListener('load', typeText);
 
-/* 3D Tilt Effect for Cards */
+/* 3D Tilt Effect for Cards (GSAP Optimized) */
 const cards = document.querySelectorAll('.projects__card');
 
 cards.forEach(card => {
+    // Create quickTo setters for performance
+    const xTo = gsap.quickTo(card, "rotationY", { duration: 0.4, ease: "power3" });
+    const yTo = gsap.quickTo(card, "rotationX", { duration: 0.4, ease: "power3" });
+
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -106,11 +211,43 @@ cards.forEach(card => {
         const rotateX = ((y - centerY) / centerY) * -10; // Max rotation deg
         const rotateY = ((x - centerX) / centerX) * 10;
 
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        xTo(rotateY);
+        yTo(rotateX);
+
+        gsap.to(card, { scale: 1.05, duration: 0.3 });
     });
 
     card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        xTo(0);
+        yTo(0);
+        gsap.to(card, { scale: 1, duration: 0.5 });
+    });
+});
+
+/* Magnetic Buttons */
+const buttons = document.querySelectorAll('.button, .nav__link, .projects__button');
+
+buttons.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        gsap.to(btn, {
+            x: x * 0.3, // Magnetic strength
+            y: y * 0.3,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+
+    btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, {
+            x: 0,
+            y: 0,
+            duration: 0.5,
+            ease: "elastic.out(1, 0.3)"
+        });
     });
 });
 
@@ -207,7 +344,7 @@ class Particle {
 
 function initParticles() {
     particlesArray = [];
-    const numberOfParticles = (canvas.width * canvas.height) / 4500; // Density (Increased 15x)
+    const numberOfParticles = (canvas.width * canvas.height) / 6000; // Density (Increased 15x)
     for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
     }
@@ -248,7 +385,7 @@ function animateParticles() {
             const dy = particlesArray[i].y - particlesArray[j].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 100) {
+            if (distance < 150) {
                 const lineColor = getComputedStyle(document.documentElement).getPropertyValue('--second-color').trim() || 'rgba(255, 255, 255, 0.1)';
 
                 // Sharp Layer
@@ -284,13 +421,62 @@ const lightTheme = 'light-theme';
 // Previously selected topic (if user selected)
 const selectedTheme = localStorage.getItem('selected-theme');
 
+// Check system preference if no local storage
+const systemTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+
 const getCurrentTheme = () => document.body.classList.contains(lightTheme) ? 'light' : 'dark';
 
+// Initialize Theme
 if (selectedTheme) {
     document.body.classList[selectedTheme === 'light' ? 'add' : 'remove'](lightTheme);
+} else {
+    // Apply system preference
+    document.body.classList[systemTheme === 'light' ? 'add' : 'remove'](lightTheme);
 }
 
-themeButton.addEventListener('click', () => {
+themeButton.addEventListener('click', (event) => {
+    // Fallback for browsers that don't support View Transitions
+    if (!document.startViewTransition) {
+        toggleTheme();
+        return;
+    }
+
+    // Get click coordinates
+    const x = event.clientX;
+    const y = event.clientY;
+
+    // Calculate distance to furthest corner
+    const endRadius = Math.hypot(
+        Math.max(x, innerWidth - x),
+        Math.max(y, innerHeight - y)
+    );
+
+    // Start the transition
+    const transition = document.startViewTransition(() => {
+        toggleTheme();
+    });
+
+    // Wait for the pseudo-elements to be created
+    transition.ready.then(() => {
+        // Animate the clip-path
+        document.documentElement.animate(
+            {
+                clipPath: [
+                    `circle(0px at ${x}px ${y}px)`,
+                    `circle(${endRadius}px at ${x}px ${y}px)`,
+                ],
+            },
+            {
+                duration: 750, // Slower for more impact
+                easing: 'cubic-bezier(0.645, 0.045, 0.355, 1.000)', // "easeInOutCubic" - smooth acceleration and deceleration
+                // Specify which pseudo-element to animate
+                pseudoElement: '::view-transition-new(root)',
+            }
+        );
+    });
+});
+
+function toggleTheme() {
     document.body.classList.toggle(lightTheme);
     localStorage.setItem('selected-theme', getCurrentTheme());
 
@@ -301,4 +487,31 @@ themeButton.addEventListener('click', () => {
             p.color = getComputedStyle(document.documentElement).getPropertyValue('--first-color').trim();
         });
     }
-});
+}
+
+/* Mobile Menu Toggle */
+const navMenu = document.getElementById('nav-menu'),
+    navToggle = document.getElementById('nav-toggle'),
+    navClose = document.getElementById('nav-close');
+
+if (navToggle) {
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.add('show-menu');
+    });
+}
+
+if (navClose) {
+    navClose.addEventListener('click', () => {
+        navMenu.classList.remove('show-menu');
+    });
+}
+
+/* Remove Menu Mobile on Link Click */
+const navLink = document.querySelectorAll('.nav__link');
+
+function linkAction() {
+    const navMenu = document.getElementById('nav-menu');
+    // When we click on each nav__link, we remove the show-menu class
+    navMenu.classList.remove('show-menu');
+}
+navLink.forEach(n => n.addEventListener('click', linkAction));
