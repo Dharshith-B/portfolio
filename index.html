@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Dharshith">
+    <title>Portfolio | Dharshith</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <canvas id="particles-canvas-blurred"></canvas>
+    <canvas id="particles-canvas"></canvas>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo">Dharshith.</a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+                    <li class="nav__item"><a href="#projects" class="nav__link">Projects</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                </ul>
+            </div>
+            <button class="theme-toggle" id="theme-button" aria-label="Toggle Theme">
+                <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42">
+                    </path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- HOME -->
+        <section class="home section" id="home">
+            <div class="home__container container grid">
+                <div class="home__content">
+                    <span class="home__subtitle">Hello, I'm Dharshith.</span>
+                    <br>
+                    <h1 class="home__title">I am an <br> Architect.</h1>
+                    <p class="home__description">
+                        <span id="typing-text"></span><span class="cursor-blink">|</span>
+                    </p>
+                    <a href="#projects" class="button">View Work</a>
+                </div>
+                <div class="home__img-wrapper">
+                    <div class="home__blob"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="about section" id="about">
+            <h2 class="section__title">About Me</h2>
+            <div class="about__container container grid">
+                <div class="about__data">
+                    <p class="about__description">
+                        I'm a passionate Full Stack Roboticist with a background in design and engineering, I bridge the
+                        gap between aesthetics and functionality.
+                    </p>
+                    <div class="about__info">
+                        <div>
+                            <span class="about__info-title">03+</span>
+                            <span class="about__info-name">Years <br> Experience</span>
+                        </div>
+                        <div>
+                            <span class="about__info-title">20+</span>
+                            <span class="about__info-name">Projects <br> Completed</span>
+                        </div>
+                        <div>
+                            <span class="about__info-title">05+</span>
+                            <span class="about__info-name">Companies <br> Worked</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="projects section" id="projects">
+            <h2 class="section__title">Selected Works</h2>
+            <div class="projects__container container grid">
+                <!-- Project 1 -->
+                <article class="projects__card">
+                    <div class="projects__image-container">
+                        <div class="projects__image-placeholder"></div>
+                    </div>
+                    <div class="projects__data">
+                        <h3 class="projects__title">Board Game Enhanced with Robotics</h3>
+                        <p class="projects__description">A surprisingly fun board game (borrowing heavily from Pokemon),
+                            but with a robotics twist.</p>
+                        <a href="#" class="projects__button">
+                            Demo <i class="arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="projects__card">
+                    <div class="projects__image-container">
+                        <div class="projects__image-placeholder"></div>
+                    </div>
+                    <div class="projects__data">
+                        <h3 class="projects__title">Finance Dashboard</h3>
+                        <p class="projects__description">Real-time data visualization for financial assets.</p>
+                        <a href="#" class="projects__button">
+                            Demo <i class="arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="projects__card">
+                    <div class="projects__image-container">
+                        <div class="projects__image-placeholder"></div>
+                    </div>
+                    <div class="projects__data">
+                        <h3 class="projects__title">AI Chat Interface</h3>
+                        <p class="projects__description">Responsive chat UI with generative AI integration.</p>
+                        <a href="#" class="projects__button">
+                            Demo <i class="arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="contact section" id="contact">
+            <h2 class="section__title">Let's Talk</h2>
+            <div class="contact__container container grid">
+                <div class="contact__content">
+                    <h3 class="contact__title">Get in touch</h3>
+                    <p class="contact__description">Have a project in mind? Looking for a partner? Let's work together.
+                    </p>
+                    <a href="mailto:dharshithb2@gmail.com" class="button button--ghost">dharshithb2@gmail.com</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <h1 class="footer__title">Dharshith.</h1>
+            <ul class="footer__list">
+                <li><a href="#about" class="footer__link">About</a></li>
+                <li><a href="#projects" class="footer__link">Projects</a></li>
+                <li><a href="#contact" class="footer__link">Contact</a></li>
+            </ul>
+            <span class="footer__copy">&#169; 2024. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
