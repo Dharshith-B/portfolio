@@ -321,7 +321,7 @@ button {
         backdrop-filter: blur(10px);
         padding-top: 6rem;
         transition: .4s;
-        z-index: var(--z-fixed);
+        z-index: 1000;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -349,6 +349,17 @@ button {
         display: block;
         width: 32px;
         height: 32px;
+        z-index: 1001;
+        pointer-events: auto;
+        /* Ensure it captures clicks */
+        background: transparent;
+        /* Reset button background */
+        padding: 0;
+        /* Reset padding */
+    }
+
+    .nav__close svg {
+        pointer-events: none;
     }
 
     .nav__toggle {
@@ -363,6 +374,15 @@ button {
     /* Show Menu Class */
     .show-menu {
         top: 0;
+    }
+
+    /* Hide toggle when menu is open */
+    .nav__menu.show-menu~.nav__toggle {
+        display: none;
+    }
+
+    .nav__close {
+        z-index: 1001;
     }
 }
 

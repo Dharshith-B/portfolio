@@ -509,10 +509,21 @@ if (navToggle) {
 }
 
 if (navClose) {
+    // Use event delegation or direct attachment with logging
     navClose.addEventListener('click', () => {
+        console.log('Close button clicked');
         navMenu.classList.remove('show-menu');
     });
 }
+
+// Fallback: Event delegation to ensure it works even if direct attachment fails
+document.addEventListener('click', (e) => {
+    if (e.target.closest('#nav-close')) {
+        console.log('Close button clicked via delegation');
+        const navMenu = document.getElementById('nav-menu');
+        if (navMenu) navMenu.classList.remove('show-menu');
+    }
+});
 
 /* Remove Menu Mobile on Link Click */
 const navLink = document.querySelectorAll('.nav__link');
